@@ -1,0 +1,27 @@
+<div class="col-md-4 mx-auto">
+    <div class="card">
+        <div class="card-header">
+            <h3>New Product</h3>
+        </div>
+        <div class="card-body">
+            <form action="/product/new-product" method="POST">
+                <label>Name</label>
+                    <input type="text" name="productName" class="form-control" autofocus>
+                <label>Description</label>
+                    <input type="text" name="description" class="form-control">
+                <label>Code</label>
+                    <input type="text" name="code" class="form-control">
+                <label>Photo URL</label>
+                     <input type="url" name="photo" class="form-control">
+                <label>Price</label>
+                     <input type="number" name="price" class="form-control">
+                <label>Stock</label>
+                    <input type="number" name="stock" class="form-control">
+                <button class="btn btn-primary btn-block" type="submit">
+                    Save
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
