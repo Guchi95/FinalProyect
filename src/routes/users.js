@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 const passport = require('passport');
+const Cart = require('../models/Cart');
 
 router.get('/users/signin', (req, res) => {
     res.render('./users/signin');
@@ -20,7 +21,6 @@ router.get('/users/signup', (req, res) => {
 router.post('/users/signup', async (req, res) => {
     const { name, email, password, confirm_password } = req.body;
     const errors = [];
-    console.log(req.body);
     if(name.length <=3) {
         errors.push({text: 'Please insert a valid name'});
     }
@@ -40,9 +40,12 @@ router.post('/users/signup', async (req, res) => {
     }
     const newUser = new User({name, email, password});
     newUser.password = await newUser.encryptPassword(password);
-    await newUser.save();   
+    await newUser.save();
+    const userId = newUser.id;
+    const newCart = new Cart({userId});
+    await newCart.save();
     req.flash('success_msg', 'You are registered');
-    res.redirect('/users/signin') 
+    res.render('./users/signin') 
     }
 });
 

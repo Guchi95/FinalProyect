@@ -3,13 +3,14 @@ const { removeListener } = require('../models/Product');
 const router = express.Router();
 
 const Product = require('../models/Product')
-const { isAuthenticated } = require('../helpers/auth') 
+const { isAuthenticated } = require('../helpers/auth')
+const { isAdmin } = require('../helpers/auth') 
 
-router.get('/product/add', isAuthenticated, (req, res) => {
+router.get('/product/add', isAuthenticated, isAdmin, (req, res) => {
     res.render('./product/newProduct')
 })
 
-router.post('/product/new-Product', isAuthenticated, async (req, res) => {
+router.post('/product/new-Product', isAuthenticated, isAdmin, async (req, res) => {
     const { productName, description, date, code, photo, price, stock }= (req.body);
     const errors = [];
     if(!productName) {
@@ -34,23 +35,23 @@ router.post('/product/new-Product', isAuthenticated, async (req, res) => {
 
 router.get('/product', isAuthenticated, async (req, res) => {
    const products = await Product.find().lean();
-   res.render('./product/all-products', {products});
+   res.render('./product/all-products', {products, isAdmin});
 });
 
-router.get('/product/edit/:id', isAuthenticated, async (req, res)=>{
+router.get('/product/edit/:id', isAuthenticated, isAdmin, async (req, res)=>{
     const product = await Product.findById(req.params.id).lean();
-res.render('./product/edit-product', {product})
+res.render('./product/edit-product', {product, isAdmin})
 });
 
-router.put('/product/edit-product/:id', isAuthenticated, async (req, res)=>{
+router.put('/product/edit-product/:id', isAuthenticated, isAdmin, async (req, res)=>{
     const {productName, description, code, photo, price, stock}= req.body;
     await Product.findByIdAndUpdate(req.params.id, {productName, description, code, photo, price, stock}).lean();
     req.flash('success_msg', 'Product updated successfully');
     res.redirect('/product')
 });
 
-router.delete('/product/delete/:id', async (req, res) => {
-await Product.findByIdAndDelete(req.params.id)
+router.delete('/product/delete/:id', isAuthenticated, isAdmin, async (req, res) => {
+await Product.findByIdAndDelete(req.params.id).lean();
 req.flash('success_msg', 'Product deleted successfully');
 res.redirect('/product')
 });

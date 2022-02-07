@@ -19,8 +19,10 @@
                         PRODUCTS
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <li><a class="dropdown-item" href="/product">All products</a></li>
+                        <li><a class="dropdown-item" href="/product">All products</a></li> 
+                        {{#if user.isAdmin}}
                         <li><a class="dropdown-item" href="/product/add">Add product</a></li>
+                        {{/if}}
                         <li><a class="fas fa-shopping-cart" href="/cart"></a>Shopping cart</li>                         
                         <li><a class="dropdown-item" href="/users/logout">Logout</a></li>
                     </ul>

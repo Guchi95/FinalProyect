@@ -1,19 +1,18 @@
 <div class="row">
-    {{#each productInCart}}
+    {{#each products}}
     <div class="col-md-3">
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title d-flex justify-content-between align-items-center">
-                    {{productName}}
+                    {{this.productName}}
                 </h4>
-                <img src="{{photo}}" height="100"></img>
-                <p>{{description}}</p>
-                <p>Code: {{code}}</p>
-                <p> $ {{price}}</p>
-                <p>In Stock: {{stock}}</p>
+                <img src="{{this.photo}}" height="100"></img>
+                <p>{{this.description}}</p>
+                <p>Code: {{this.code}}</p>
+                <p> $ {{this.price}}</p>
+                <p>In Stock: {{this.stock}}</p>
 
-                <form action="/cart/removeProduct/{{_id}}?_method=DELETE" method="POST">
-                    <input type="hidden" name="_method" value="DELETE">
+                <form action="/cart/removeProduct/{{this._id}}" method="POST">
                     <button class="btn btn-danger btn-block btn-sm" type="submit">
                         Remove from Cart
                     </button>
